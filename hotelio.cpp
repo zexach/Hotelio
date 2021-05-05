@@ -92,7 +92,12 @@ struct Korisnik{
 
 //struktura hotel
 struct Hotel{
-	
+	string nazivHotela;
+	double stanjeKase;
+	int brojSoba;
+	int brojDostupnihSoba;
+	int brojZauzetihSoba;
+	int broj radnika;
 };
 //-------------------- >>> SPISAK FUNKCIJA <<< ---------------------
 
