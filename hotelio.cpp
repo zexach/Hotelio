@@ -38,7 +38,8 @@ char *greska = "[GRESKA]: Pogresan unos, pokusajte ponovo!\n";
 enum velicinaSobe {
     jednokrevetna=1,
     dvokrevetna,
-    trokrevetna
+    trokrevetna,
+	predsjednickiApartman
 };
 
 //enumeracija za poziciju radnika
@@ -54,7 +55,7 @@ enum pozicijaRadnika {
 //struktura soba
 struct Soba{
     velicinaSobe velicina;
-    int cijena;
+    float cijena;
     int brojSobe;
     bool slobodna;
 };
