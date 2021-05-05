@@ -61,17 +61,17 @@ struct Soba{
     bool slobodna;
 };
 
+//struktura datum
+struct Datum {
+    int dan,mjesec,godina;
+};
 //struktura rezervacija
 struct Rezervacija{
 	string ime;
 	string prezime;
 	Datum datumPrijave;
-	Darum datumOdjave;
+	Datum datumOdjave;
 	
-};
-//struktura datum
-struct Datum {
-    int dan,mjesec,godina;
 };
 
 //struktura radnik
@@ -99,7 +99,7 @@ struct Hotel{
 	int brojSoba;
 	int brojDostupnihSoba;
 	int brojZauzetihSoba;
-	int broj radnika;
+	int brojRadnika;
 };
 //-------------------- >>> SPISAK FUNKCIJA <<< ---------------------
 void splashscreen();
