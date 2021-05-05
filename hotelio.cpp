@@ -26,6 +26,7 @@
 #include <fstream>
 #include <algorithm>
 #include <cmath>
+#include <unistd.h> 
 using namespace std;
 
 //-------------------- >>> KONSTANTE <<< ---------------------
@@ -101,13 +102,28 @@ struct Hotel{
 	int broj radnika;
 };
 //-------------------- >>> SPISAK FUNKCIJA <<< ---------------------
-
+void splashscreen();
 //-------------------- >>> MAIN FUNKCIJA <<< ---------------------
 
 int main()
 {
+	splashscreen();
 	
 	return 0;
 }
 
 //-------------------- >>> FUNKCIJE <<< ---------------------
+void splashscreen(){
+	cout<<"\t     __     __    ___________    ______________    ____________    __            __    ___________ "<<endl;
+	cout<<"\t    |  |   |  |  |   _____   |  |_____    _____|  |   _________|  |  |          |  |  |   _____   |"<<endl;
+	cout<<"\t    |  |   |  |  |  |     |  |        |  |        |  |            |  |          |  |  |  |     |  |"<<endl;
+	cout<<"\t    |  |   |  |  |  |     |  |        |  |        |  |            |  |          |  |  |  |     |  |"<<endl;
+	cout<<"\t    |  |___|  |  |  |     |  |        |  |        |  |_____       |  |          |  |  |  |     |  |"<<endl;
+	cout<<"\t    |   ___   |  |  |     |  |        |  |        |   _____|      |  |          |  |  |  |     |  |"<<endl;
+	cout<<"\t    |  |   |  |  |  |     |  |        |  |        |  |            |  |          |  |  |  |     |  |"<<endl;
+	cout<<"\t    |  |   |  |  |  |     |  |        |  |        |  |            |  |          |  |  |  |     |  |"<<endl;
+	cout<<"\t    |  |   |  |  |  |_____|  |        |  |        |  |_________   |  |_______   |  |  |  |_____|  |"<<endl;
+	cout<<"\t    |__|   |__|  |___________|        |__|        |____________|  |__________|  |__|  |___________|"<<endl;
+	sleep(3); //#include <unistd.h>
+	system("cls");
+}
