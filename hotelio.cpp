@@ -26,7 +26,7 @@
 #include <fstream>
 #include <algorithm>
 #include <cmath>
-#include <unistd.h> 
+#include <vector>
 using namespace std;
 
 //-------------------- >>> KONSTANTE <<< ---------------------
@@ -103,6 +103,7 @@ struct Hotel{
 };
 //-------------------- >>> SPISAK FUNKCIJA <<< ---------------------
 void splashscreen();
+void poruka(int);
 //-------------------- >>> MAIN FUNKCIJA <<< ---------------------
 
 int main()
@@ -124,6 +125,28 @@ void splashscreen(){
 	cout<<"\t    |  |   |  |  |  |     |  |        |  |        |  |            |  |          |  |  |  |     |  |"<<endl;
 	cout<<"\t    |  |   |  |  |  |_____|  |        |  |        |  |_________   |  |_______   |  |  |  |_____|  |"<<endl;
 	cout<<"\t    |__|   |__|  |___________|        |__|        |____________|  |__________|  |__|  |___________|"<<endl;
-	sleep(3); //#include <unistd.h>
+	Sleep(3000); 
 	system("cls");
+}
+void poruka(int broj){
+	switch(broj){
+		case 1:
+			cout<<"=========================================================\n";
+			break;
+		case 2:
+			cout<<"Za nastavak pritisnite bilo koju tipku...\n";
+			break;
+		case 3:
+			cout<<"[GRESKA]: Pogresan unos, pokusajte ponovo!\n";
+			break;
+		case 4:
+			cout<<"[GRESKA]: Nema pronadjenih rezultata pretrage!\n";
+			break;
+		case 5:
+			cout<<"[GRESKA]: Nemoguce ucitati fajl!\n";
+			break;
+		default:
+			cout<<"Greska!\n";
+			break;
+	}
 }
