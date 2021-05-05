@@ -9,7 +9,7 @@
 ||				Ajdin Bukvic	            	||
 ||				Emir Zambakovic             	||
 ||							    	||
-|| 			© 2021                              	||
+|| 			Â© 2021                              	||
 ||							    	||
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
 
@@ -18,7 +18,6 @@
 #include <iostream>
 #include <conio.h>
 #include <iomanip>
-#include <string>
 #include <cstring>
 #include <windows.h>
 #include <cstdlib>
@@ -35,9 +34,66 @@ using namespace std;
 char *linija = "\n=========================================================\n";
 char *greska = "[GRESKA]: Pogresan unos, pokusajte ponovo!\n";
 //-------------------- >>> ENUMERACIJE <<< ---------------------
+//enumeracija za velicinu sobe
+enum velicinaSobe {
+    jednokrevetna=1,
+    dvokrevetna,
+    trokrevetna
+};
+
+//enumeracija za poziciju radnika
+enum pozicijaRadnika {
+    recepcioner=1,
+    cistac,
+    konobar,
+    menadzer,
+    trener
+};
 
 //-------------------- >>> STRUKTURE <<< ---------------------
+//struktura soba
+struct Soba{
+    velicinaSobe velicina;
+    int cijena;
+    int brojSobe;
+    bool slobodna;
+};
 
+//struktura rezervacija
+struct Rezervacija{
+	string ime;
+	string prezime;
+	Datum datumPrijave;
+	Darum datumOdjave;
+	
+};
+//struktura datum
+struct Datum {
+    int dan,mjesec,godina;
+};
+
+//struktura radnik
+struct Radnik{
+    int id;
+    string ime;
+    string prezime;
+    pozicijaRadnika pozicija;
+    double plata;
+};
+
+//struktura korisnik
+struct Korisnik{
+	string ime;
+	string prezime;
+	string spol;
+	string username;
+	string password;
+};
+
+//struktura hotel
+struct Hotel{
+	
+};
 //-------------------- >>> SPISAK FUNKCIJA <<< ---------------------
 
 //-------------------- >>> MAIN FUNKCIJA <<< ---------------------
