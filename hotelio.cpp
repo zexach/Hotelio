@@ -106,8 +106,10 @@ void splashscreen();
 void poruka(int);
 int glavniMenu();
 void registracija();
+int prebroj_clanove(string);
 void prijava(string&,string&,bool&);
 void adminPrijava(bool&);
+int admin_menu();
 //-------------------- >>> MAIN FUNKCIJA <<< ---------------------
 
 int main()
@@ -121,24 +123,80 @@ int main()
             case 1:{
                 system("cls");
                 registracija();
-                system("pause");
                 break;
             }
             case 2:{
                 system("cls");
                 prijava(korisnickoIme,sifra,ispravnostKorisnik);
-                if(ispravnostKorisnik) cout<<"Uspjesno ste prijavljeni ";//ovaj if sluzi za otvaranje korisnickog menija
-                system("pause");
+                if(ispravnostKorisnik) cout<<"Uspjesno ste prijavljeni"<<endl;//ovaj if sluzi za otvaranje korisnickog menija
                 break;               
             }
             case 3:{
                 system("cls");
                 adminPrijava(ispravnostAdmin);
-                if(ispravnostAdmin) cout<<"USPJESNO STE PRIJAVLJENI";//OVAJ IF SLUZI ZA OTVARANJE ADMIN MENUA
-                system("pause");
+                if(ispravnostAdmin){ 
+					cout<<"USPJESNO STE PRIJAVLJENI"<<endl;//OVAJ IF SLUZI ZA OTVARANJE ADMIN MENUA
+					Sleep(1000);
+					system("cls");
+					int odabir;
+					while(odabir = admin_menu()){
+					switch (odabir){
+					case 1:{
+                			system("cls");
+                			//
+                			break;
+            				}
+            				case 2:{
+                			system("cls");
+                			//
+                			break;
+            				}
+            				case 3:{
+                			system("cls");
+                			//
+                			break;
+            				}
+            				case 4:{
+                			system("cls");
+                			//
+                			break;
+            				}
+            				case 5:{
+                			system("cls");
+                			//
+                			break;
+            				}
+            				case 6:{
+                			system("cls");
+                			//
+                			break;
+            				}
+            				case 7:{
+                			system("cls");
+                			//
+                			break;
+            				}
+            				case 8:{
+                			system("cls");
+                			//
+                			break;
+            				}
+            				case 9:{
+                			system("cls");
+                			//
+                			break;
+            				}
+            				case 10:{
+                			exit(EXIT_FAILURE);
+            				}
+				}
+			}
+		}
                 break;               
             }
         }
+    	poruka(2);
+    	getch();
     }
 	return 0;
 }
@@ -183,17 +241,19 @@ void poruka(int broj){
 			break;
 	}
 }
-
 //funkcija za prvi menu
 int glavniMenu(){
 	system("cls");
 	cout<<"\n\n\n\n\n\n\n\n";
-	cout << "1. Registracija\n";
-	cout << "2. Prijava\n";
-	cout << "3. Admin prijava\n";
-	cout << "0. Izlaz\n";
+	poruka(1);
+	cout<<"\t\t\t\tGLAVNI MENU"<<endl;
+	cout << "\t\t1. Registracija\n";
+	cout << "\t\t2. Prijava\n";
+	cout << "\t\t3. Admin prijava\n";
+	cout << "\t\t0. Izlaz\n";
+	poruka(1);
 	int opcija;
-	cout<<"Izaberite opciju: ";
+	cout<<"\t\tIzaberite opciju: ";
 	cin >> opcija;
 	if (opcija!=0) return opcija;
 	else{
@@ -309,27 +369,35 @@ void registracija(){
 		unos.close();
 	}
 	else{
-		cout<<"GRESKA U SISTEMU!"<<endl;
+		poruka(5);
+		return;
 	}
 }
-
+//funkcija koja prebrojava clanove u nekoj datoteci
+int prebroj_clanove(string naziv_datoteke){
+	//otvaramo datoteku prvi put kako bi izbrojali broj elemenata u datoteci
+	string linija;
+	int brojac = 0;
+	ifstream ulaz(naziv_datoteke);
+	if (ulaz.is_open()){
+		while(getline(ulaz, linija)){
+			brojac++;
+		}
+		ulaz.close();
+	}
+	else{
+		poruka(5);
+		return 0;
+	}
+	return brojac;	
+}
 //funkcija za prijavu u sistem (prijavu korisnika)
 void prijava(string& korisnickoIme, string& sifra, bool& ispravnost){
 	ispravnost=false;
 	Korisnik temp;
 	bool rezultat = false;
-	int broj=0, brojElemenata=0, brojPokusaja=0,brojac=0;
-	//otvaramo datoteku prvi put kako bi izbrojali broj elemenata u datoteci
-	ifstream ulaz("listaKorisnika.txt");
-	if (ulaz.is_open()){
-		while(ulaz>>temp.ime>>temp.prezime>>temp.spol>>temp.username>>temp.password){
-			brojElemenata++;
-		}
-		ulaz.close();
-	}
-	else{
-		cout<<"GRESKA U SISTEMU!!!"<<endl;
-	}	
+	int broj=0, brojElemenata, brojPokusaja=0,brojac=0;
+	brojElemenata = prebroj_clanove("listaKorisnika.txt");
 	Korisnik korisnici[brojElemenata];//kreiramo niz od tacno onoliko elemenata oliko ima u datoteci
 	ifstream noviUlaz("listaKorisnika.txt"); //otvaramo datoteku drugi put kako bi kopirali elemenete u niz
 	if (noviUlaz.is_open()){
@@ -340,7 +408,8 @@ void prijava(string& korisnickoIme, string& sifra, bool& ispravnost){
 		noviUlaz.close();
 	}
 	else{
-		cout<<"GRESKA U SISTEMU!!!"<<endl;
+		poruka(5);
+		return;
 	}
 	broj = 0;
 	do{ //koristimo do - while petlju kako bi omogucili korisniku unos korisnickog imena, te ukoliko napravi odredjeni broj pogresaka vracamo ga na pcetak
@@ -454,5 +523,32 @@ void adminPrijava(bool& ispravnost){
 	
 	if(brojac==2){ 
 		ispravnost=true;
+	}
+}
+//funkcija za admin menu
+int admin_menu(){
+	system("cls");
+	cout<<"\n\n\n\n\n\n\n\n";
+	poruka(1);
+	cout<<"\t\t\t\tADMIN MENU"<<endl;
+	cout << "\t\t1. Prikazi rezervacije\n";
+	cout << "\t\t2. Prihvati / odbaci rezervaciju\n";
+	cout << "\t\t3. Provjeri slobodne sobe\n";
+	cout << "\t\t4. Prikazi zauzete sobe\n";
+	cout << "\t\t5. Uredi cjenovnik\n";
+	cout << "\t\t6. Izdaj racun\n";
+	cout << "\t\t7. Pregled svih racuna\n";
+	cout << "\t\t8. Stanje hotela\n";
+	cout << "\t\t9. Informacije o radnicima\n";
+	cout << "\t\t10. Izlaz\n";
+	poruka(1);
+	int opcija;
+	cout<<"\t\tIzaberite opciju: ";
+	cin >> opcija;
+	if (opcija!=0) return opcija;
+	else{
+		cin.clear();
+		cin.ignore(100, '\n');
+		return 0;
 	}
 }
