@@ -57,6 +57,13 @@ enum stanje_rezervacije {
 	odbijeno
 };
 
+enum aktivnosti {
+	teretena=1,
+	bazen,
+	fitness,
+	masaza,
+	sauna
+};
 //-------------------- >>> STRUKTURE <<< ---------------------
 //struktura soba
 struct Soba{
@@ -99,13 +106,17 @@ struct Korisnik{
 };
 
 //struktura hotel
-struct Hotel{
-	string nazivHotela;
-	double stanjeKase;
-	int brojSoba;
-	int brojDostupnihSoba;
-	int brojZauzetihSoba;
-	int brojRadnika;
+struct Racun{
+	int id;
+	string username;
+	float iznos;
+	bool placeno;
+};
+
+struct dodatneAktivnosti {
+	string username;
+	aktivnosti aktivnost;
+	float cijena;
 };
 //-------------------- >>> SPISAK FUNKCIJA <<< ---------------------
 void splashscreen();
@@ -579,17 +590,21 @@ void adminPrijava(bool& ispravnost) {
 //funkcija koja sluzi za unos sifre bez prikazivanja karaktera
 string skrivena_sifra(string sifra, char znak) {
 	sifra.clear();
-	while (znak = getch()) {
-		if (znak != 13) {
-			cout << "*";
-		}
-		sifra += znak;
-		if (znak == 13) {
-			break;
-		}
-	}
-	sifra.erase(sifra.length() - 1);
-	return sifra;
+	while(znak = getch()){
+  		if(znak == 13) {
+            return sifra;
+        }
+        else if(znak == 8 && sifra.size() != 0) {
+            sifra.erase(sifra.size() - 1);
+  			cout<<"\b \b";
+  			continue;
+        }
+  		else if(znak == 8 && sifra.size() == 0) {
+            continue;
+        }
+  		sifra += znak;
+        cout<<"*";
+    }
 }
 //funkcija za admin menu
 int admin_menu() {
@@ -603,9 +618,9 @@ int admin_menu() {
 	cout << "\t\t4. Uredi cjenovnik\n";
 	cout << "\t\t5. Izdaj racun\n";
 	cout << "\t\t6. Pregled svih racuna\n";
-	cout << "\t\t7. Stanje hotela\n";
+	cout << "\t\t7. Informacije / stanje hotela\n";
 	cout << "\t\t8. Dodaj radnika\n";
-	cout << "\t\t9. Informacije o radnicima\n";
+	cout << "\t\t9. Isplati plate radnicima\n";
 	cout << "\t\t0. Odjava\n";
 	poruka(1);
 	int opcija;
