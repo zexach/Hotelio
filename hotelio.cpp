@@ -1,16 +1,16 @@
 /*||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-||							    	||
-||		Naziv projekta: Hotelio			    	||
-||		Zavrsni projekat iz predmeta:	       	    	||
-||		Napredne tehnike programiranja              	||
-||		Mentor: v. as. mr. Edin Tabak		    	||
-||			Autori:		 		    	||
-||				Muamer Alickovic            	||
-||				Ajdin Bukvic	            	||
-||				Emir Zambakovic             	||
-||							    	||
-|| 			© 2021                              	||
-||							    	||
+||							    								||
+||		Naziv projekta: Hotelio			    					||
+||		Zavrsni projekat iz predmeta:	       	    			||
+||		Napredne tehnike programiranja              			||
+||		Mentor: v. as. mr. Edin Tabak		    				||
+||			Autori:		 		    							||
+||				Muamer Alickovic            					||
+||				Ajdin Bukvic	            					||
+||				Emir Zambakovic             					||
+||							    								||
+|| 			� 2021                                             ||
+||							    								||		
 ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||*/
 
 //-------------------- >>> BIBLIOTEKE <<< ---------------------
@@ -26,14 +26,21 @@
 #include <fstream>
 #include <algorithm>
 #include <cmath>
+#include <vector>
 #include <sstream>
 using namespace std;
 
 //-------------------- >>> KONSTANTE <<< ---------------------
 const string adminUsername="admin";//postavljamo globalno username za admina
-const string adminPassword="admin";//postavljamo globalno sifru za admina
+const string adminPassword="admin";//postavljamo globalno sifru za admina 
 //-------------------- >>> GLOBALNE VARIJABLE <<< ---------------------
 
+//-------------------- >>> SPISAK FUNKCIJA <<< ---------------------
+//kako bi izbjegli preveliko uredjivanje koda, zbog potrebe za koristenjem funkcije u strukturi,ove tri funkcije smo definisali na samom pocetku, jer one ne zahtjevaju nikakve posebne elemente, a potrebene su
+//za ralizaciju funkcije dodaj_radnika() u strukturi radnik
+int prebroj_clanove(string);
+void dodaj_radnika();
+void poruka(int);
 //-------------------- >>> ENUMERACIJE <<< ---------------------
 //enumeracija za velicinu sobe
 enum velicinaSobe {
@@ -95,6 +102,52 @@ struct Radnik{
     string prezime;
     pozicijaRadnika pozicija;
     double plata;
+
+	//funkcija koja sluzi za dodavanje novih radnika u datoteku
+	void dodaj_radnika(){
+	Radnik *r = new Radnik;
+	int br = prebroj_clanove("radnici.txt");
+	int rb = br+1;
+	int pozicija_unos;
+	ofstream izlaz("radnici.txt", ios::app);
+	if(izlaz.is_open()){
+		poruka(1);
+		cout<<"Dodavanje novog radnika..."<<endl;
+		poruka(1);
+		cout<<"Unesite ime radnika: ";
+		cin>>r->ime;
+		cout<<"Unesite prezime radnika: ";
+		cin>>r->prezime;
+		do{
+			cout<<"Pozicija radnika:"<<endl;
+			cout<<"Dostupne pozicije: \n1 - Recepcioner\n2 - Cistac\n3 - Konobar\n4 - Menadzer\n5 - Trener\n";
+			cout<<"Unesite poziciju radnika: ";
+			cin>>pozicija_unos;
+			if(pozicija_unos < 1 || pozicija_unos > 5)
+			poruka(3);
+		}
+		while(pozicija_unos < 1 || pozicija_unos > 5);
+		r->pozicija = pozicijaRadnika(pozicija_unos);
+		do{
+			cout<<"Unesite platu radnika: ";
+			cin>>r->plata;
+			if(r->plata < 100 || r->plata > 2000){
+				poruka(3);
+				cout<<"Samo u intervalu 100 - 2000 KM"<<endl;
+			}
+		}
+		while(r->plata < 100 || r->plata > 2000);
+		izlaz << rb << " " << r->ime << " " << r->prezime << " " << r->pozicija << " " << r->plata << endl;
+		poruka(1);
+		cout<<"Novi radnik je uspjesno dodan u datoteku radnici.txt..."<<endl;	
+		izlaz.close();
+		delete r;
+	}
+	else{
+		poruka(5);
+		return;
+	}
+	}
 };
 
 //struktura korisnik
@@ -121,7 +174,6 @@ struct dodatneAktivnosti {
 };
 //-------------------- >>> SPISAK FUNKCIJA <<< ---------------------
 void splashscreen();
-void poruka(int);
 int glavniMenu();
 void registracija();
 int prebroj_clanove(string);
@@ -132,6 +184,7 @@ int admin_menu();
 void prikazi_rezervacije();
 void prihvati_odbij_rezervaciju();
 void azuriraj_rezervacije(Rezervacija*,int,int,int);
+void promijeni_stanje_sobe(Soba*,int,int);
 void pretrazi_sobe();
 void uredi_cjenovnik();
 void azuriraj_sobe(Soba*,int,int,float);
@@ -210,7 +263,8 @@ int main() {
 							}
 							case 8: {
 								system("cls");
-								dodaj_radnika();
+								Radnik r;
+								r.dodaj_radnika();
 								break;
 							}
 							case 9: {
@@ -690,6 +744,7 @@ void prihvati_odbij_rezervaciju(){
 	int stanje;
 	int br = 0;
 	int pozicija;
+	int soba;
 	bool postoji = false;
 	int br_rezervacija = prebroj_clanove("rezervacije.txt");
 	if(br_rezervacija == 0){
@@ -716,6 +771,7 @@ void prihvati_odbij_rezervaciju(){
 				postoji = true;
 				if(izbor == 1 && r->stanje == cekanje){
 					cout<<"Uspjesno ste prihvatili rezervaciju!"<<endl;
+					soba = r->broj_sobe;
 				}
 				else if(izbor == 2 && r->stanje == cekanje){
 					cout<<"Uspjesno ste odbili rezervaciju!"<<endl;
@@ -737,6 +793,34 @@ void prihvati_odbij_rezervaciju(){
 		}
 		delete r;
 		delete[] niz;	
+	}
+	else{
+		poruka(5);
+		return;
+	}
+	int br_soba = prebroj_clanove("sobe.txt");
+	Soba *s = new Soba;
+	Soba *sobe_niz = new Soba[br_soba];
+	int soba_brojac = 0;
+	int velicina_broj;
+	int pozicija_soba;
+	ifstream ulaz2("sobe.txt");
+	if(ulaz2.is_open()){
+		while(ulaz2 >> s->brojSobe >> s->cijena >> velicina_broj >> s->slobodna){
+			if(velicina_broj == 1) s->velicina = jednokrevetna;
+			else if(velicina_broj == 2) s->velicina = dvokrevetna;
+			else if(velicina_broj == 3) s->velicina = trokrevetna;
+			else s->velicina = predsjednickiApartman;
+			sobe_niz[soba_brojac] = *s;
+			soba_brojac++;
+			if(soba == s->brojSobe){
+				pozicija_soba = soba_brojac-1;
+			}
+		}
+		ulaz2.close();
+		promijeni_stanje_sobe(sobe_niz, br_soba, pozicija_soba);
+		delete s;
+		delete[] sobe_niz;	
 	}
 	else{
 		poruka(5);
@@ -785,6 +869,26 @@ void azuriraj_rezervacije(Rezervacija *niz, int br_rezervacija, int pozicija, in
 	ulaz.close();
 	remove("rezervacije.txt");
 	rename("azurirano.txt","rezervacije.txt");
+	}
+	else{
+		poruka(5);
+		return;
+	}
+}
+//funkcija koja slobodnu sobu postavlja na zauzeto stanje
+void promijeni_stanje_sobe(Soba *sobe_niz, int br_soba, int soba_pozicija){
+	bool zauzeta = true;
+	ofstream izlaz("sobe.txt");
+	if(izlaz.is_open()){
+		for(int i = 0; i<br_soba; i++){
+			if(i == soba_pozicija){
+				izlaz << sobe_niz[i].brojSobe << " " << sobe_niz[i].cijena << " " << sobe_niz[i].velicina << " " << zauzeta << endl;	
+			}
+			else{
+				izlaz << sobe_niz[i].brojSobe << " " << sobe_niz[i].cijena << " " << sobe_niz[i].velicina << " " << sobe_niz[i].slobodna << endl;
+			}
+		}
+	izlaz.close();
 	}
 	else{
 		poruka(5);
@@ -1193,51 +1297,6 @@ void stanje_hotela(){
 		return;
 	}
 		
-}
-//funkcija koja sluzi za dodavanje novih radnika u datoteku
-void dodaj_radnika(){
-	Radnik *r = new Radnik;
-	int br = prebroj_clanove("radnici.txt");
-	int rb = br+1;
-	int pozicija_unos;
-	ofstream izlaz("radnici.txt", ios::app);
-	if(izlaz.is_open()){
-		poruka(1);
-		cout<<"Dodavanje novog radnika..."<<endl;
-		poruka(1);
-		cout<<"Unesite ime radnika: ";
-		cin>>r->ime;
-		cout<<"Unesite prezime radnika: ";
-		cin>>r->prezime;
-		do{
-			cout<<"Pozicija radnika:"<<endl;
-			cout<<"Dostupne pozicije: \n1 - Recepcioner\n2 - Cistac\n3 - Konobar\n4 - Menadzer\n5 - Trener\n";
-			cout<<"Unesite poziciju radnika: ";
-			cin>>pozicija_unos;
-			if(pozicija_unos < 1 || pozicija_unos > 5)
-			poruka(3);
-		}
-		while(pozicija_unos < 1 || pozicija_unos > 5);
-		r->pozicija = pozicijaRadnika(pozicija_unos);
-		do{
-			cout<<"Unesite platu radnika: ";
-			cin>>r->plata;
-			if(r->plata < 100 || r->plata > 2000){
-				poruka(3);
-				cout<<"Samo u intervalu 100 - 2000 KM"<<endl;
-			}
-		}
-		while(r->plata < 100 || r->plata > 2000);
-		izlaz << rb << " " << r->ime << " " << r->prezime << " " << r->pozicija << " " << r->plata << endl;
-		poruka(1);
-		cout<<"Novi radnik je uspjesno dodan u datoteku radnici.txt..."<<endl;	
-		izlaz.close();
-		delete r;
-	}
-	else{
-		poruka(5);
-		return;
-	}
 }
 //funkcija koja isplacuje platu svim radnicima od ukupnog novca na racunu hotela
 void isplati_plate(){

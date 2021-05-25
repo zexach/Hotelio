@@ -10,3 +10,4 @@
 10 Rijad Ahmic 3 700
 11 Milos Maric 3 650
 12 Marko Dautbegovic 2 600
+13 Meho Mehic 1 1000
