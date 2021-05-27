@@ -586,7 +586,7 @@ void prijava(string& korisnickoIme, string& sifra, bool& ispravnost) {
 		}
 		broj++;
 	} while(!rezultat);
-	if(brojac==2) { //ukoliko su username i sifra ispravno uneseni, ispravnost postavljamo na true, to ce nam trebati da mozemo dalje raditi u programu
+	if(brojac<3) { //ukoliko su username i sifra ispravno uneseni, ispravnost postavljamo na true, to ce nam trebati da mozemo dalje raditi u programu
 		ispravnost=true;
 	}
 	delete[] korisnici;
@@ -597,6 +597,7 @@ void adminPrijava(bool& ispravnost) {
 	int broj=0, brojPokusaja=0, brojac=0;
 	bool rezultat=false;
 	string korisnickoIme, sifra;
+	ispravnost=false;
 	do {
 		if(broj > 0) {
 			cout<<"POGRESNO STE UNIJELI KORISNICKO IME!!!"<<endl;
@@ -647,7 +648,7 @@ void adminPrijava(bool& ispravnost) {
 		broj++;
 	} while(!rezultat);
 
-	if(brojac==2) {
+	if(brojac<3) {
 		ispravnost=true;
 	}
 }
