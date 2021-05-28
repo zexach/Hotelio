@@ -1603,7 +1603,7 @@ void rezervacijaSobe(string user){
 		upis<<redniBroj<<" ";
 		upis<<user<<" ";
 		upis<<datumPrijave->dan<<" "<<datumPrijave->mjesec<<" "<<datumPrijave->godina<<" ";
-		upis<<datumOdjave->dan<<" "<<datumOdjave->mjesec<<" "<<datumPrijave->godina<<" ";
+		upis<<datumOdjave->dan<<" "<<datumOdjave->mjesec<<" "<<datumOdjave->godina<<" ";
 		upis<<stanje<<endl;
 		cout<<"Uspjesno ste izvrsili rezervaciju sobe. Rezervacija ce biti prihvacena kroz nekoliko trenutaka."<<endl;
 	}
